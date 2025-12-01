@@ -9,7 +9,7 @@ import org.bukkit.inventory.MenuType;
 import org.jetbrains.annotations.NotNull;
 import su.nightexpress.nexshop.ShopPlugin;
 import su.nightexpress.nexshop.config.Lang;
-import su.nightexpress.nexshop.shop.menu.Confirmation;
+import su.nightexpress.nightcore.ui.menu.confirmation.Confirmation;
 import su.nightexpress.nexshop.shop.virtual.VirtualShopModule;
 import su.nightexpress.nexshop.shop.virtual.lang.VirtualLang;
 import su.nightexpress.nexshop.shop.virtual.config.VirtualLocales;
@@ -59,8 +59,8 @@ public class RotationOptionsMenu extends LinkedMenu<ShopPlugin, Rotation> {
                         rotation.getShop().performRotation(rotation);
                         module.openRotationOptions(viewer1.getPlayer(), rotation);
                     })
-                    .onReturn((viewer1, event1) -> module.openRotationOptions(viewer1.getPlayer(), rotation)
-                    .build()))));
+                    .onReturn((viewer1, event1) -> module.openRotationOptions(viewer1.getPlayer(), rotation))
+                    .build())));
 
         this.addItem(Material.ITEM_FRAME, VirtualLocales.ROTATION_EDIT_ICON, 4, (viewer, event, rotation) -> {
             if (event.isRightClick()) {

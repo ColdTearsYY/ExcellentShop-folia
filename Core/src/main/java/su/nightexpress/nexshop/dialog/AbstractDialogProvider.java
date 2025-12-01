@@ -22,7 +22,7 @@ public abstract class AbstractDialogProvider<T> implements DialogProvider<T>, La
     }
 
     public void showNextTick(@NotNull Player user, @NotNull T source) {
-        this.plugin.runTask(user, () -> this.show(user, source));
+        this.plugin.runTask(() -> this.show(user, source));
     }
 
     @Override

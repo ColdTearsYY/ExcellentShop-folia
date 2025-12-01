@@ -223,7 +223,7 @@ public class ShopListener extends AbstractListener<ShopPlugin> {
                 // https://www.spigotmc.org/threads/581448/
                 // https://www.spigotmc.org/threads/534714/
 
-                this.plugin.runTask(location, () -> {
+                this.plugin.runTask(() -> {
                     if (!(block.getState() instanceof Hopper hopper)) return; // Obtain fresh Hopper instance, do not trust this damn event anymore.
 
                     Inventory hopperInv = hopper.getInventory();

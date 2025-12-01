@@ -1,30 +1,18 @@
 package su.nightexpress.nexshop.shop.menu;
 
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.jetbrains.annotations.NotNull;
-import su.nightexpress.nightcore.ui.menu.MenuViewer;
-import su.nightexpress.nightcore.ui.menu.item.ItemClick;
-
+/**
+ * @deprecated Use {@link su.nightexpress.nightcore.ui.menu.confirmation.Confirmation} instead.
+ * This class is kept for backward compatibility only.
+ */
 @Deprecated
-public interface Confirmation {
-
-    void onAccept(@NotNull MenuViewer viewer, @NotNull InventoryClickEvent event);
-
-    void returnBack(@NotNull MenuViewer viewer, @NotNull InventoryClickEvent event);
-
-    @NotNull
-    static Confirmation create(@NotNull ItemClick accept, @NotNull ItemClick decline) {
-        return new Confirmation() {
-
-            @Override
-            public void onAccept(@NotNull MenuViewer viewer, @NotNull InventoryClickEvent event) {
-                accept.onClick(viewer, event);
-            }
-
-            @Override
-            public void returnBack(@NotNull MenuViewer viewer, @NotNull InventoryClickEvent event) {
-                decline.onClick(viewer, event);
-            }
-        };
+public class Confirmation {
+    // This is just a marker class. Use su.nightexpress.nightcore.ui.menu.confirmation.Confirmation directly.
+    
+    /**
+     * @deprecated Use {@link su.nightexpress.nightcore.ui.menu.confirmation.Confirmation#builder()} instead.
+     */
+    @Deprecated
+    public static su.nightexpress.nightcore.ui.menu.confirmation.Confirmation.Builder builder() {
+        return su.nightexpress.nightcore.ui.menu.confirmation.Confirmation.builder();
     }
 }

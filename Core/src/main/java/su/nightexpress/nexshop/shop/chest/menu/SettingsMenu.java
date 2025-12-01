@@ -129,10 +129,10 @@ public class SettingsMenu extends LinkedMenu<ShopPlugin, ChestShop> implements C
         UIUtils.openConfirmation(player, Confirmation.builder()
             .onAccept((viewer1, event) -> {
                 this.module.deleteShop(player, shop);
-                this.plugin.runTask(player, player::closeInventory);
+                this.plugin.runTask(() -> player.closeInventory());
             })
             .onReturn((viewer1, event) ->
-                    this.plugin.runTask(player, () -> this.module.openShopSettings(player, shop)))
+                    this.plugin.runTask(() -> this.module.openShopSettings(player, shop)))
             .returnOnAccept(false)
             .build());
     }
@@ -144,9 +144,9 @@ public class SettingsMenu extends LinkedMenu<ShopPlugin, ChestShop> implements C
         UIUtils.openConfirmation(player, Confirmation.builder()
             .onAccept((viewer1, event) -> {
                 this.module.cancelRent(player, shop);
-                this.plugin.runTask(player, player::closeInventory);
+                this.plugin.runTask(() -> player.closeInventory());
             })
-            .onReturn((viewer1, event) -> this.plugin.runTask(player, () -> this.module.openShopSettings(player, shop)))
+            .onReturn((viewer1, event) -> this.plugin.runTask(() -> this.module.openShopSettings(player, shop)))
             .returnOnAccept(false)
             .build());
     }

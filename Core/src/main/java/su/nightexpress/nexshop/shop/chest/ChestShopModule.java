@@ -130,7 +130,7 @@ public class ChestShopModule extends AbstractModule implements ShopModule, Playe
 
         this.addAsyncTask(this::saveDirtyShops, ChestConfig.SAVE_INTERVAL.get());
 
-        this.plugin.runTaskAsync(this::loadBanks);
+        this.plugin.runTaskAsync(task -> this.loadBanks());
         this.plugin.runTask(() -> this.lookup().getAll().forEach(this::activateShop));
     }
 
@@ -423,7 +423,7 @@ public class ChestShopModule extends AbstractModule implements ShopModule, Playe
         ChestBank bank = this.getBankMap().get(uuid);
         if (bank == null) {
             ChestBank bank2 = new ChestBank(uuid, new HashMap<>());
-            this.plugin.runTaskAsync(() -> this.plugin.getDataHandler().createChestBank(bank2));
+            this.plugin.runTaskAsync(task -> this.plugin.getDataHandler().createChestBank(bank2));
             this.getBankMap().put(uuid, bank2);
             return bank2;
         }
@@ -438,7 +438,7 @@ public class ChestShopModule extends AbstractModule implements ShopModule, Playe
     }
 
     public void savePlayerBank(@NotNull ChestBank bank) {
-        this.plugin.runTaskAsync(() -> this.plugin.getDataHandler().saveChestBank(bank));
+        this.plugin.runTaskAsync(task -> this.plugin.getDataHandler().saveChestBank(bank));
     }
 
     @NotNull
@@ -551,7 +551,7 @@ public class ChestShopModule extends AbstractModule implements ShopModule, Playe
         }
 
         if (Version.isPaper()) {
-            plugin.runTask(player, () -> player.teleportAsync(location));
+            plugin.runTask(() -> player.teleportAsync(location));
             return true;
         }
 
@@ -635,7 +635,7 @@ public class ChestShopModule extends AbstractModule implements ShopModule, Playe
             if (shop.isRentable() && !shop.isRented()) {
                 UIUtils.openConfirmation(player, Confirmation.builder()
                     .onAccept((viewer, event1) -> this.rentShopOrExtend(player, shop))
-                    .onReturn((viewer, event1) -> this.plugin.runTask(player, player::closeInventory))
+                    .onReturn((viewer, event1) -> this.plugin.runTask(() -> player.closeInventory()))
                     .returnOnAccept(true)
                     .build());
                 return;

@@ -218,7 +218,7 @@ public class ChestShopCommands {
             }
 
             UUID targetId = user.getId();
-            plugin.runTask(player, () -> module.openBank(player, targetId));
+            plugin.runTask(() -> module.openBank(player, targetId));
         });
         return true;
     }
