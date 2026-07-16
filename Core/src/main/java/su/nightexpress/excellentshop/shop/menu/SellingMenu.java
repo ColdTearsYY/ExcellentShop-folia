@@ -228,7 +228,9 @@ public class SellingMenu extends AbstractObjectMenu<SellMenuContext> implements 
             ItemStack cursor = event.getCursor();
             ItemStack saveCursor = cursor == null ? null : new ItemStack(cursor);
 
-            if (!this.addItem(context, copyStack, leftAmount -> clickedItem.setAmount(leftAmount))) return false;
+            if (!this.addItem(context, copyStack, leftAmount -> clickedItem.setAmount(leftAmount))) {
+                return false;
+            }
 
             ItemStack saveClicked = new ItemStack(clickedItem);
             // Prevent possible duplications using client mods with fast clicks due to 1 tick delay below
@@ -456,6 +458,8 @@ public class SellingMenu extends AbstractObjectMenu<SellMenuContext> implements 
         else if (mergeResult == unitsToSell) {
             // Nothing merged/added, no free space for new items, cancel immediately.
             if (!sellContext.hasFreeSpace()) {
+                // No items were affected, return original amount back.
+                callback.accept(itemAmount);
                 return false;
             }
 
