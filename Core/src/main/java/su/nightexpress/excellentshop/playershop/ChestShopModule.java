@@ -905,14 +905,14 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
 
         BlockData blockData = material.createBlockData();
         if (blockData instanceof Directional directional) {
-            if (blockData instanceof org.bukkit.block.data.type.Chest) {
+            if (directional.getFaces().contains(BlockFace.UP)) {
+                directional.setFacing(BlockFace.UP);
+            }
+            else {
                 BlockFace face = EntityUtil.getDirection(player);
                 if (face != null) {
                     directional.setFacing(face.getOppositeFace());
                 }
-            }
-            else {
-                directional.setFacing(BlockFace.UP);
             }
         }
 
