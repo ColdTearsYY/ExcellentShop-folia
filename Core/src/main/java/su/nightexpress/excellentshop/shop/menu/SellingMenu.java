@@ -236,6 +236,10 @@ public class SellingMenu extends AbstractObjectMenu<SellMenuContext> implements 
             // Prevent possible duplications using client mods with fast clicks due to 1 tick delay below
             clickedItem.setAmount(0);
 
+            if (cursor != null) {
+                cursor.setAmount(0);
+            }
+
             this.plugin.runTask(player, () -> {
                 context.getViewer().refresh();
                 InventoryView view = context.getViewer().getCurrentView();
