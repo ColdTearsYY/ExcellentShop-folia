@@ -154,6 +154,16 @@ public class ShopPlugin extends NightPlugin implements ModuleContextProvider {
         Keys.load(this);
     }
 
+    private boolean isFolia() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        }
+        catch (ClassNotFoundException ignored) {
+            return false;
+        }
+    }
+
     private void loadPacketLibrary() {
         PacketLibrary library;
 
@@ -161,6 +171,11 @@ public class ShopPlugin extends NightPlugin implements ModuleContextProvider {
             library = new PacketEventsHook();
         }
         else if (Plugins.isInstalled(HookPlugin.PROTOCOL_LIB)) {
+            if (this.isFolia()) {
+                this.warn("ProtocolLib is disabled on Folia. Install PacketEvents for shop displays.");
+                return;
+            }
+
             library = new ProtocolLibHook();
         }
         else {

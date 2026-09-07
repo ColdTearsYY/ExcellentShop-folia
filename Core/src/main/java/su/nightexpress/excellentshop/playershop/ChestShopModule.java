@@ -5,12 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -162,7 +162,7 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
         this.productFormatter = new ProductFormatter<>();
 
         this.blockMap = new EnumMap<>(Material.class);
-        this.claimHooks = new HashSet<>();
+        this.claimHooks = ConcurrentHashMap.newKeySet();
         this.lookup = new ShopLookup();
     }
 
@@ -190,12 +190,10 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
         this.addAsyncTask(this::saveDirtyShops, ChestConfig.SAVE_INTERVAL.get());
         this.addTask(this::tickShops, 1);
 
-        this.plugin.runTask(() -> {
-            this.plugin.getServer().getWorlds().forEach(world -> {
-                for (Chunk chunk : world.getLoadedChunks()) {
-                    this.handleChunkLoad(chunk);
-                }
-            });
+        this.plugin.getServer().getWorlds().forEach(world -> {
+            for (Chunk chunk : world.getLoadedChunks()) {
+                this.plugin.runTask(chunk, () -> this.handleChunkLoad(chunk));
+            }
         });
     }
 
@@ -406,11 +404,21 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
     }
 
     private void updateShopDisplays() {
-        this.lookup().getAll().forEach(shop -> this.displayManager.render(shop));
+        if (this.displayManager == null) return;
+
+        this.lookup().getAll().forEach(shop -> {
+            if (!shop.isAccessible()) return;
+
+            this.plugin.runTask(shop.getBukkitLocation(), () -> this.displayManager.render(shop));
+        });
     }
 
     public void tickShops() {
-        this.lookup.getAll().forEach(this::tickShop);
+        this.lookup.getAll().forEach(shop -> {
+            if (!shop.isAccessible()) return;
+
+            this.plugin.runTask(shop.getBukkitLocation(), () -> this.tickShop(shop));
+        });
     }
 
     public void tickShop(@NonNull ChestShop shop) {
@@ -602,7 +610,8 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
             }
         }
 
-        return player.teleport(location);
+        player.teleportAsync(location);
+        return true;
     }
 
     @Deprecated
@@ -734,13 +743,13 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
 
     public void handleWorldLoad(@NonNull World world) {
         for (Chunk chunk : world.getLoadedChunks()) {
-            this.handleChunkLoad(chunk);
+            this.plugin.runTask(chunk, () -> this.handleChunkLoad(chunk));
         }
     }
 
     public void handleWorldUnload(@NonNull World world) {
         for (Chunk chunk : world.getLoadedChunks()) {
-            this.handleChunkUnload(chunk);
+            this.plugin.runTask(chunk, () -> this.handleChunkUnload(chunk));
         }
     }
 

@@ -62,14 +62,14 @@ It includes **GUI Shop** (with Rotations), **Chest Shop** and **Auction House**.
 - [**PlaceholderAPI**](https://nightexpressdev.com/excellentshop/placeholders/papi) Support.
 
 ## System Requirements
-- Server Software: [**Spigot**](https://www.spigotmc.org/link-forums/88/) or [**Paper**](https://papermc.io/downloads/paper)
-- Server Version: <span style="color:red">**1.21.1**</span> or above
-- Java Version: [**21**](https://adoptium.net/temurin/releases) or above
+- Server Software: [**Spigot**](https://www.spigotmc.org/link-forums/88/), [**Paper**](https://papermc.io/downloads/paper), or [**Folia**](https://papermc.io/software/folia)
+- Server Version: <span style="color:red">**1.21.1**</span> or above; Lophine 26.2 is supported on a best-effort basis
+- Java Version: [**21**](https://adoptium.net/temurin/releases) or above (Lophine 26.2 requires Java 25)
 - Dependencies:
   - [**nightcore**](https://nightexpressdev.com/nightcore/) - Plugin engine.
 - Optional Plugins:
   - [**PacketEvents**](https://spigotmc.org/resources/80279/) - ChestShop holograms.
-- Folia Supported: <span style="color:red">**No**</span>
+- Folia Supported: <span style="color:green">**Yes**</span>
 - Forge Supported: <span style="color:red">**No**</span>
 
 ## Links

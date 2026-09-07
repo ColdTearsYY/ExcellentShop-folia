@@ -2,7 +2,7 @@ package su.nightexpress.excellentshop.playershop.impl;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -80,7 +80,7 @@ public class ChestShop extends AbstractShop<ChestProduct> implements PlayerShop 
                      @NonNull String id) {
         super(plugin, path, id);
         this.module = module;
-        this.trustedPlayers = new HashMap<>();
+        this.trustedPlayers = new ConcurrentHashMap<>();
     }
 
     public void load() throws PlayerShopLoadException {
