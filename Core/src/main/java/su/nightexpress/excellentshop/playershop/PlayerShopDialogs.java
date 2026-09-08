@@ -61,7 +61,7 @@ public class PlayerShopDialogs extends SimpleManager<ShopPlugin> {
 
                 shop.setName(name);
                 shop.markDirty();
-                plugin.runTask(task -> module.openShopSettings(user.getPlayer(), shop));
+                plugin.runTask(user.getPlayer(), () -> module.openShopSettings(user.getPlayer(), shop));
             })
         );
     }

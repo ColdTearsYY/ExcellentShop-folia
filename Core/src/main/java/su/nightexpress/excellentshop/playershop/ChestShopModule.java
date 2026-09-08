@@ -857,7 +857,7 @@ public class ChestShopModule extends AbstractShopModule implements PlayerShopMan
             // TODO Dialog
             UIUtils.openConfirmation(player, Confirmation.builder()
                 .onAccept((viewer, event1) -> this.rentShopOrExtend(player, shop))
-                .onReturn((viewer, event1) -> this.plugin.runTask(task -> player.closeInventory()))
+                .onReturn((viewer, event1) -> this.plugin.runTask(player, player::closeInventory))
                 .returnOnAccept(true)
                 .build());
             return;
